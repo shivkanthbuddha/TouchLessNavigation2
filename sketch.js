@@ -12,7 +12,7 @@ let video;
 let poseNet;
 let poses = [];
 let nose;
-var cam = document.querySelector("#cameraWrapper");
+var cam =document.querySelector('#main-camera');
 
 function setup() {
   var cc =createCanvas(windowWidth, windowHeight);
@@ -59,22 +59,27 @@ function drawKeypoints() {
         fill(255, 0, 0);
         noStroke();
         if (j == 0 ) {
+         // console.log("X: " + JSON.stringify(cam.object3D) )
           image(nose, keypoint.position.x, keypoint.position.y, 50, 50);
-          var treshold=0.03;  
-          if (keypoint.position.x > windowWidth / 2 && keypoint.position.x > 0 ) {
-            //alert($(document).trigger( $.Event('keydown', { key : '37' })     ))
-            cam.object3D.position.x = cam.object3D.position.x - treshold;
+          var treshold=0.005; 
+          
+          if (keypoint.position.x > windowWidth / 2 ) {
+             //document           cam.object3D.position.x = cam.object3D.position.x - treshold;
+              cam.object3D.rotation.y = cam.object3D.rotation.y - treshold;
 
-          } else if (keypoint.position.x < windowWidth / 2 && keypoint.position.x < windowWidth) {
-            //          $("body").trigger($.Event('keydown', { key: '39' }));
-            cam.object3D.position.x = cam.object3D.position.x + treshold;
+          } else if (keypoint.position.x < windowWidth / 2 ) {
+   //         cam.object3D.position.x = cam.object3D.position.x + treshold;
+            cam.object3D.rotation.y = cam.object3D.rotation.y + treshold;
+
           }
 
-            if (keypoint.position.y > windowHeight / 2  && keypoint.position.y > 0 ) {
-              cam.object3D.position.y = cam.object3D.position.y - treshold;
+            if (keypoint.position.y > windowHeight / 2   ) {
+     //         cam.object3D.position.y = cam.object3D.position.y - treshold;
+            cam.object3D.rotation.x = cam.object3D.rotation.x - treshold;
 
-          } else if (keypoint.position.y < windowHeight / 2   && keypoint.position.y < windowWidth) {
-            cam.object3D.position.y = cam.object3D.position.y + treshold;
+          } else if (keypoint.position.y < windowHeight / 2   ) {
+       //     cam.object3D.position.y = cam.object3D.position.y + treshold;
+           cam.object3D.rotation.x = cam.object3D.rotation.x + treshold;
           }        
           prevPoseX =keypoint.position.x;
         }
