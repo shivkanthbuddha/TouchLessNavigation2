@@ -8,8 +8,8 @@ TensorflowJS with Posenet model.
 
 ## Getting start
 * install node 
-* 'npm install -g superstatic'
-* 'superstatic -p 3000'
+* npm install -g superstatic
+* superstatic -p 3000
 
 ## DEMO
 http://localhost:3000
