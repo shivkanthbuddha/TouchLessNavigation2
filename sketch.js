@@ -15,7 +15,8 @@ let nose;
 var cam = document.querySelector("#cameraWrapper");
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  var cc =createCanvas(windowWidth, windowHeight);
+  cc.hide();
   video = createCapture(VIDEO);
   video.size(width, height);
 
@@ -49,6 +50,7 @@ function drawKeypoints() {
   for (let i = 0; i < poses.length; i++) {
     // For each pose detected, loop through all the keypoints
     let pose = poses[i].pose;
+    let prevPoseX =0;
     for (let j = 0; j < pose.keypoints.length; j++) {
       // A keypoint is an object describing a body part (like rightArm or leftShoulder)
       let keypoint = pose.keypoints[j];
@@ -56,42 +58,43 @@ function drawKeypoints() {
       if (keypoint.score > 0.2) {
         fill(255, 0, 0);
         noStroke();
-        if (j == 0) {
+        if (j == 0 ) {
           image(nose, keypoint.position.x, keypoint.position.y, 50, 50);
-          
-          if (keypoint.position.x > windowWidth / 2 && keypoint.position.x > 0) {
+          var treshold=0.1;  
+          if (keypoint.position.x > windowWidth / 2 && keypoint.position.x > 0 ) {
             //alert($(document).trigger( $.Event('keydown', { key : '37' })     ))
-            cam.object3D.position.x = cam.object3D.position.x - 1;
+            cam.object3D.position.x = cam.object3D.position.x - treshold;
+
+          } else if (keypoint.position.x < windowWidth / 2 && keypoint.position.x < windowWidth) {
+            //          $("body").trigger($.Event('keydown', { key: '39' }));
+            cam.object3D.position.x = cam.object3D.position.x + treshold;
           }
-        } else if (keypoint.position.x < windowWidth / 2 && keypoint.position.x < windowWidth) {
-//          $("body").trigger($.Event('keydown', { key: '39' }));
-          cam.object3D.position.x = cam.object3D.position.x + 1;
+
+          //   if (keypoint.position.y > windowHeight / 2 && keypoint.position.y > 0) {
+          //     cam.object3D.position.y = cam.object3D.position.y - 1;
+
+          // } else if (keypoint.position.y < windowHeight / 2 && keypoint.position.y < windowHeight) {
+          //   cam.object3D.position.y = cam.object3D.position.y + 1;
+          // }        
+          prevPoseX =keypoint.position.x;
         }
-
-      //   if (keypoint.position.y > windowHeight / 2 && keypoint.position.y > 0) {
-      //     cam.object3D.position.y = cam.object3D.position.y - 1;
-      //   }
-      // } else if (keypoint.position.y < windowHeight / 2 && keypoint.position.y < windowHeight) {
-      //   cam.object3D.position.y = cam.object3D.position.y + 1;
-      // }        
-
       }
-    }
-  
 
-}
-
-// A function to draw the skeletons
-function drawSkeleton() {
-  // Loop through all the skeletons detected
-  for (let i = 0; i < poses.length; i++) {
-    let skeleton = poses[i].skeleton;
-    // For every skeleton, loop through all body connections
-    for (let j = 0; j < skeleton.length; j++) {
-      let partA = skeleton[j][0];
-      let partB = skeleton[j][1];
-      stroke(255, 0, 0);
-      line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
     }
   }
 }
+
+  // A function to draw the skeletons
+  function drawSkeleton() {
+    // Loop through all the skeletons detected
+    for (let i = 0; i < poses.length; i++) {
+      let skeleton = poses[i].skeleton;
+      // For every skeleton, loop through all body connections
+      for (let j = 0; j < skeleton.length; j++) {
+        let partA = skeleton[j][0];
+        let partB = skeleton[j][1];
+        stroke(255, 0, 0);
+        line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+      }
+    }
+  }
