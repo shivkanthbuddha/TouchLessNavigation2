@@ -60,7 +60,7 @@ function drawKeypoints() {
         noStroke();
         if (j == 0 ) {
           image(nose, keypoint.position.x, keypoint.position.y, 50, 50);
-          var treshold=0.1;  
+          var treshold=0.03;  
           if (keypoint.position.x > windowWidth / 2 && keypoint.position.x > 0 ) {
             //alert($(document).trigger( $.Event('keydown', { key : '37' })     ))
             cam.object3D.position.x = cam.object3D.position.x - treshold;
@@ -70,12 +70,12 @@ function drawKeypoints() {
             cam.object3D.position.x = cam.object3D.position.x + treshold;
           }
 
-          //   if (keypoint.position.y > windowHeight / 2 && keypoint.position.y > 0) {
-          //     cam.object3D.position.y = cam.object3D.position.y - 1;
+            if (keypoint.position.y > windowHeight / 2  && keypoint.position.y > 0 ) {
+              cam.object3D.position.y = cam.object3D.position.y - treshold;
 
-          // } else if (keypoint.position.y < windowHeight / 2 && keypoint.position.y < windowHeight) {
-          //   cam.object3D.position.y = cam.object3D.position.y + 1;
-          // }        
+          } else if (keypoint.position.y < windowHeight / 2   && keypoint.position.y < windowWidth) {
+            cam.object3D.position.y = cam.object3D.position.y + treshold;
+          }        
           prevPoseX =keypoint.position.x;
         }
       }
