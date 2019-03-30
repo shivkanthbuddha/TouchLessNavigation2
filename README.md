@@ -1,4 +1,4 @@
-# touchless-navigation
+# Touchless-Navigation
 
 Uer navigates the website using gestures which are captured by the Web Camera 
 
